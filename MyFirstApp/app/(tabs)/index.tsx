@@ -1,62 +1,85 @@
-import { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Image, ScrollView, StyleSheet } from 'react-native';
 
-// I added useState and TextInput to make the profile card interactive. 05/15/2026
-export default function Index() {
+export default function App() {
   const [name, setName] = useState('');
+  const [count, setCount] = useState(0);
+
+  
+    const message =
+    count === 0 && name === ''
+      ? 'Tap the buttons!'
+      : `${name ? `${name}, ` : ''}You tapped ${count} times!`;
+
 
   return (
-    <View style={styles.screen}>
-      <Image source={require('./ian.jpg')} style={styles.photo} />
+    <ScrollView contentContainerStyle={styles.container}>
+      
+      <Image source={require('./ian.jpg')} style={styles.image} />
+
       
       <TextInput
-        placeholder="Type your name..."
+        placeholder="Enter your name"
         onChangeText={setName}
         style={styles.input}
       />
+
       
-      <Text style={styles.name}>
-        Hello, {name}!
+      <Text style={styles.greeting}>
+        {name === '' ? 'Ad astra Abyssosque ⭐' : `Ad astra abyssosque, ${name}! ⭐`}
       </Text>
-      
-      <Text style={styles.course}>
-        MMA Student · CS126
-      </Text>
-    </View>
+
+      <Text style={styles.message}>{message}</Text>
+
+      <View style={styles.buttonContainer}>
+        <Button title="+" onPress={() => setCount(count + 1)} />
+        <Button title="-" onPress={() => setCount(count - 1)} />
+        <Button title="Reset" onPress={() => setCount(0)} />
+      </View>
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { 
-    flex: 1, 
-    alignItems: 'center', 
+  container: {
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white', 
+    padding: 20,
   },
-  photo: { 
-    width: 120, 
-    height: 120, 
+  image: {
+    width: 120,
+    height: 120,
     borderRadius: 60,
-    marginBottom: 10
+    marginBottom: 16,
   },
   input: {
     height: 40,
-    margin: 12,
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 10,
-    width: 200,
-    borderRadius: 8,
-    textAlign: 'center'
+    paddingHorizontal: 10,
+    marginBottom: 12,
+    width: '80%',
+    borderRadius: 6,
+    backgroundColor: 'white',
   },
-  name: { 
-    fontSize: 22, 
-    fontWeight: 'bold', 
-    marginTop: 12 
+  greeting: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 6,
+    textAlign: 'center',
   },
-  course: { 
-    fontSize: 14, 
-    color: '#888',
-    marginTop: 4
-  }
+  message: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    marginTop: 10,
+    width: '60%',
+  },
 });
